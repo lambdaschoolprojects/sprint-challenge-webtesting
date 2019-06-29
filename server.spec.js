@@ -6,13 +6,46 @@ const db = require('./data/config');
 
 describe('POST /games', () => {
     it('returns 200 when sent correct data', () => {
+        const game = {
+                id: 1,
+                title: 'Pacman', // required
+                genre: 'Arcade', // required
+                releaseYear: 1980 // not required
+            };
+
+        const res = request(server).post('/games', game);
+
+        expect(res.status).toBe(200);
 
     });
     it('returns 422 when sent incomplete data', () => {
+        const game = {
+            id: 1,
+            title: 'Pacman', // required
+            releaseYear: 1980 // not required
+        };
+
+        const res = request(server).post('/games', game);
+
+        expect(res.status).toBe(422);
 
     });
     it('verifies release year is a number', () => {
+        const game = {
+            id: 1,
+            title: 'Pacman', // required
+            releaseYear: "1zz0" // not required
+        };
 
+        const res = request(server).post('/games', game);
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('Year must be a number');
+
+    });
+
+    afterEach( async () => {
+        await db('games').truncate();
     });
 })
 
