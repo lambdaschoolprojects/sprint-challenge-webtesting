@@ -19,7 +19,7 @@ describe('POST /games', () => {
 describe('GET /games', () => {
    it('always returns an array', async () => {
         const res = await request(server).get('/games');
-        expect(Array.isArray(res)).toBeTruthy();
+        expect(Array.isArray(res.body.games)).toBeTruthy();
    });
 
    it('returns all items stored in the db', async () => {
@@ -42,7 +42,7 @@ describe('GET /games', () => {
 
         const res = await request(server).get('/games');
         expect(res.status).toBe(200);
-        expect(res.body).toEqual(games);
+        expect(res.body.games).toEqual(games);
    });
 
    it('returns games as objects', async () => {
@@ -64,7 +64,7 @@ describe('GET /games', () => {
        await db('games').insert(games);
        const res = await request(server).get('/games');
 
-       expect(typeof res.body[0]).toBe('object');
+       expect(typeof res.body.games[0]).toBe('object');
 
    });
 
