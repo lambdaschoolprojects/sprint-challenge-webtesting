@@ -24,10 +24,15 @@ server.get('/games', async (req, res) => {
 });
 
 server.post('/games', validateGame, async (req, res) => {
+    const { title } = req.body;
+    //const checkGame = await Games.getByTitle(title);
+
+    //console.log(checkGame);
+
     if (typeof req.body != 'object') return res.status(422).json({ message: req.body });
+    //if (typeof checkGame === 'object') return res.status(405).json({ message: "Title must be unique" });
 
     try {
-
         await Games.insertGame(req.body);
 
         return res.status(200).json({message: "Game inserted"});

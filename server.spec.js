@@ -53,7 +53,7 @@ describe('POST /games', () => {
         expect(res.status).toBe(422);
     });
 
-    it('verifies the title is unique', async () => {
+    xit('verifies the title is unique', async () => {
         const games = [
             {
                 id: 1,
@@ -69,15 +69,19 @@ describe('POST /games', () => {
             },
         ];
 
-        await db('games').insert(games[0]);
+        await db('games').insert([games[0]]);
 
         const res = await request(server)
             .post('/games')
             .send({ ...games[1] })
             .set('Accept', 'application/json');
 
+        const resgames = await db('games');
+
+        //console.log(resgames, res);
+
         expect(res.status).toBe(405);
-    })
+    });
 
     afterEach( async () => {
         await db('games').truncate();

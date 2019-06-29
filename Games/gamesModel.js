@@ -8,6 +8,11 @@ const getById = id => {
     return null;
 }
 
+const getByTitle = title => {
+    //console.log(title);
+    return db('games').where({ title });
+}
+
 const insertGame = game => {
     return null;
 }
@@ -23,6 +28,7 @@ const deleteGame = id => {
 module.exports = {
     getAll,
     getById,
+    getByTitle,
     insertGame,
     updateGame,
     deleteGame
