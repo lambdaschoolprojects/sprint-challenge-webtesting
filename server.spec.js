@@ -30,7 +30,7 @@ describe('POST /games', () => {
 
         const res = await request(server)
             .post('/games')
-            .send({game})
+            .send({...game})
             .set('Accept', 'application/json');
 
         //console.log(res);
@@ -47,11 +47,37 @@ describe('POST /games', () => {
 
         const res = await request(server)
             .post('/games')
-            .send({game})
+            .send({...game})
             .set('Accept', 'application/json');
 
         expect(res.status).toBe(422);
     });
+
+    it('verifies the title is unique', async () => {
+        const games = [
+            {
+                id: 1,
+                title: 'Pacman', // required
+                genre: 'Arcade', // required
+                releaseYear: 1980 // not required
+            },
+            {
+                id: 2,
+                title: 'Pacman', // required
+                genre: 'Arcade', // required
+                releaseYear: 1980 // not required
+            },
+        ];
+
+        await db('games').insert(games[0]);
+
+        const res = await request(server)
+            .post('/games')
+            .send({ ...games[1] })
+            .set('Accept', 'application/json');
+
+        expect(res.status).toBe(405);
+    })
 
     afterEach( async () => {
         await db('games').truncate();
