@@ -4,7 +4,7 @@ exports.up = async function(knex) {
       tbl.increments('id');
       tbl.string('title').notNullable();
       tbl.string('genre').notNullable();
-      tbl.integer('releseYear');
+      tbl.integer('releaseYear');
   });
 };
 
